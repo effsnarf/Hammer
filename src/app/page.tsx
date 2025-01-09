@@ -18,7 +18,7 @@ export default function Home() {
     presentation: null,
   };
 
-  const projects = Reactive.value([
+  const projects = Reactive.array([
     {
       _id: 1,
       name: "Project name A",
@@ -183,7 +183,7 @@ export default function Home() {
                 <div className="scrollable">
                   <List<Project>
                     type="table"
-                    items={projects.value}
+                    items={projects.items}
                     renderItem={(project, index, stagger) => (
                       <ProjectRow
                         key={index}
