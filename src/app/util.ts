@@ -82,6 +82,7 @@ class ReactiveValue<T> {
   value: T;
   private _reactSet: any;
 
+  private _watchers: ((value: T) => void)[] = [];
   private _blockConditions: (() => boolean)[] = [];
 
   private constructor(value: T) {
@@ -94,7 +95,13 @@ class ReactiveValue<T> {
     return new ReactiveValue(value);
   }
 
-  set(...args: any[]): void {
+  set(...args: unknown[]): void {
+    for (const condition of this._blockConditions) if (condition()) return;
+    this._set(...args);
+    for (const watcher of this._watchers) watcher(this.value);
+  }
+
+  private _set(...args: unknown[]): void {
     for (const condition of this._blockConditions) {
       if (condition()) return;
     }
@@ -128,7 +135,7 @@ class ReactiveValue<T> {
   }
 
   watch(callback: (value: T) => void): void {
-    useEffect(() => callback(this.value), [this.value]);
+    this._watchers.push(callback);
   }
 
   on(newValue: T, callback: (value: T) => void): void {

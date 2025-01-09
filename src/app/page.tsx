@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import List from "./components/list/list";
 import Popup, { PopupHandle } from "./components/popup";
