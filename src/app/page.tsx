@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import List from "./components/list/list";
 import Popup, { PopupHandle } from "./components/popup";
@@ -18,67 +18,69 @@ export default function Home() {
     presentation: null,
   };
 
-  const projects = Reactive.array([
-    {
-      _id: 1,
-      name: "Project name A",
-      progress: 0,
-      projectId: "2409XC2K8",
-      status: "new",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 2,
-      name: "Project name B",
-      progress: 10,
-      projectId: "2409XC2K8",
-      status: "inprog",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 3,
-      name: "Project name 2",
-      progress: 20,
-      projectId: "2409XC2K8",
-      status: "inprog",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 4,
-      name: "Project name 3",
-      progress: 30,
-      projectId: "2409XC2K8",
-      status: "inprog",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 5,
-      name: "Project name 4",
-      progress: 40,
-      projectId: "2409XC2K8",
-      status: "finished",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 6,
-      name: "Project name 5",
-      progress: 50,
-      projectId: "2409XC2K8",
-      status: "finished",
-      loopMasters: Objects.clone(loopMasters),
-    },
-    {
-      _id: 7,
-      name: "Project name 6",
-      progress: 60,
-      projectId: "2409XC2K8",
-      status: "finished",
-      loopMasters: Objects.clone(loopMasters),
-    },
-  ]);
+  const projects = Reactive.array<Project>(
+    useState([
+      {
+        _id: 1,
+        name: "Project name A",
+        progress: 0,
+        projectId: "2409XC2K8",
+        status: "new",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 2,
+        name: "Project name B",
+        progress: 10,
+        projectId: "2409XC2K8",
+        status: "inprog",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 3,
+        name: "Project name 2",
+        progress: 20,
+        projectId: "2409XC2K8",
+        status: "inprog",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 4,
+        name: "Project name 3",
+        progress: 30,
+        projectId: "2409XC2K8",
+        status: "inprog",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 5,
+        name: "Project name 4",
+        progress: 40,
+        projectId: "2409XC2K8",
+        status: "finished",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 6,
+        name: "Project name 5",
+        progress: 50,
+        projectId: "2409XC2K8",
+        status: "finished",
+        loopMasters: Objects.clone(loopMasters),
+      },
+      {
+        _id: 7,
+        name: "Project name 6",
+        progress: 60,
+        projectId: "2409XC2K8",
+        status: "finished",
+        loopMasters: Objects.clone(loopMasters),
+      },
+    ])
+  );
 
   const selected = {
-    project: Reactive.value(null as Project | null),
+    project: Reactive.value(useState(null as Project | null)),
   };
 
   const saveEditedProject = (project: Project) => {

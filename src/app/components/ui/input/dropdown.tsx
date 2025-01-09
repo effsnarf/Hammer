@@ -1,6 +1,6 @@
 "use client";
 import "./dropdown.css";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Reactive } from "@/app/util";
 import { WebImage } from "@/app/types";
@@ -28,10 +28,10 @@ const DropDown = <T,>({
   getItemText,
   hint,
 }: DropDownProps<T>) => {
-  const isVisible = Reactive.value(false);
+  const isVisible = Reactive.value(useState(false));
 
   const selected = {
-    item: Reactive.value(selectedItem),
+    item: Reactive.value(useState(selectedItem)),
   };
   selected.item.watch((newItem) => {
     isVisible.set(false);

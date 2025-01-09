@@ -1,6 +1,6 @@
 import "./popup.css";
 import Image from "next/image";
-import React, { useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef, useState, use } from "react";
 import { Reactive } from "../util";
 
 export interface PopupHandle {
@@ -19,8 +19,8 @@ const Popup = forwardRef<PopupHandle, PopupProps>(
     const transTimeS = `${transTime}s`;
     let isToggling = false;
 
-    const isOpen = Reactive.value(false);
-    const isClosing = Reactive.value(false);
+    const isOpen = Reactive.value(useState(false));
+    const isClosing = Reactive.value(useState(false));
 
     isOpen.watch(() => {
       isToggling = true;
@@ -58,7 +58,9 @@ const Popup = forwardRef<PopupHandle, PopupProps>(
               width="14"
               height="14"
               alt="close"
-              onClick={() => isOpen.set(false)}
+              onClick={() => {
+                isOpen.set(false);
+              }}
             />
           </div>
           <div className="content">{children}</div>

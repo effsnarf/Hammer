@@ -49,7 +49,7 @@ class Objects {
   }
 
   static setReactive(
-    setState: React.Dispatch<React.SetStateAction<any>>,
+    setState: React.Dispatch<React.SetStateAction<unknown>>,
     path: (string | number)[],
     value: unknown
   ) {
@@ -83,12 +83,16 @@ class Objects {
 }
 
 class Reactive {
-  static value<T>(value: T): ReactiveValue<T> {
-    return ReactiveValue.from(value);
+  static value<T>(
+    useStateDef: [T, Dispatch<SetStateAction<T>>]
+  ): ReactiveValue<T> {
+    return ReactiveValue.from(useStateDef);
   }
 
-  static array<T>(items: T[]): ReactiveArray<T> {
-    return ReactiveArray.from(items);
+  static array<T>(
+    useStateDef: [T[], Dispatch<SetStateAction<T[]>>]
+  ): ReactiveArray<T> {
+    return ReactiveArray.from(useStateDef);
   }
 }
 
@@ -99,14 +103,15 @@ class ReactiveValue<T> {
   private _watchers: ((value: T) => void)[] = [];
   private _blockConditions: (() => boolean)[] = [];
 
-  private constructor(value: T) {
-    const [rValue, rSet] = useState(value);
-    this.value = rValue;
-    this._reactSet = rSet;
+  private constructor(useStateDef: [T, Dispatch<SetStateAction<T>>]) {
+    this.value = useStateDef[0];
+    this._reactSet = useStateDef[1];
   }
 
-  static from<T>(value: T): ReactiveValue<T> {
-    return new ReactiveValue(value);
+  static from<T>(
+    useStateDef: [T, Dispatch<SetStateAction<T>>]
+  ): ReactiveValue<T> {
+    return new ReactiveValue(useStateDef);
   }
 
   set(...args: unknown[]): void {
@@ -116,19 +121,19 @@ class ReactiveValue<T> {
   }
 
   private _set(...args: unknown[]): void {
-    for (const condition of this._blockConditions) {
-      if (condition()) return;
-    }
     // (newValue: T) => void
     if (args.length === 1) {
-      this._reactSet((prevState: T) => args[0] as T);
+      const newValue = args[0] as T;
+      this.value = newValue;
+      this._reactSet(() => newValue);
       return;
     }
     // (path: (string | number)[], value: any) => void
     if (args.length == 2) {
       if (Array.isArray(args[0])) {
         const path = args[0] as (string | number)[];
-        const value = args[1] as any;
+        const value = args[1] as unknown;
+        Objects.set(this.value as Obj, path, value);
         this._reactSet((prevState: T) =>
           Objects.cloneSet(prevState as Obj, path, value)
         );
@@ -157,14 +162,15 @@ class ReactiveArray<T> {
   items: T[];
   private _reactSetItems: Dispatch<SetStateAction<T[]>>;
 
-  private constructor(items: T[]) {
-    const [rItems, rSetItems] = useState(items);
-    this.items = rItems;
-    this._reactSetItems = rSetItems;
+  private constructor(useStateDef: [T[], Dispatch<SetStateAction<T[]>>]) {
+    this.items = useStateDef[0];
+    this._reactSetItems = useStateDef[1];
   }
 
-  static from<T>(items: T[]): ReactiveArray<T> {
-    return new ReactiveArray(items);
+  static from<T>(
+    useStateDef: [T[], Dispatch<SetStateAction<T[]>>]
+  ): ReactiveArray<T> {
+    return new ReactiveArray(useStateDef);
   }
 
   set(findItem: (item: T) => boolean, newItem: T): void {

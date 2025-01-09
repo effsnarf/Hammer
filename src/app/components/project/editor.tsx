@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { LoopMaster, LoopMasters, Project } from "./types";
 import { Reactive } from "@/app/util";
 import List from "../list/list";
@@ -24,7 +24,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
   const hint = `Choose loop master`;
 
   const edited = {
-    project: Reactive.value(project),
+    project: Reactive.value(useState(project)),
   };
 
   const lmTypes = [
