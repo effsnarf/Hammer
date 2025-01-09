@@ -37,13 +37,18 @@ const DropDown = <T,>({
   });
 
   const dropDownItem = (item: T | null, index: number) => {
-    return index == -1 && !item ? (
-      <li key={index} className={!selected.item.value ? "dimmed" : ""}>
-        {hint}
-      </li>
-    ) : (
+    const isEmptyItem = index === -1 && !item;
+
+    if (isEmptyItem) {
+      return (
+        <li key={index} className={!selected.item.value ? "dimmed" : ""}>
+          {hint}
+        </li>
+      );
+    }
+    return (
       <li
-        className="flex gap-3"
+        className={`flex gap-3 ${!item ? "dimmed justify-center" : ""}`}
         key={index}
         onClick={() => selected.item.set(item)}
       >
