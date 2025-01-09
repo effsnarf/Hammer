@@ -10,6 +10,13 @@ interface ProjectEditorProps {
   onSave: (project: Project) => void;
 }
 
+type LmType = {
+  field: string,
+  title: string,
+  color: string,
+  icon: string
+}
+
 const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
 
   if (!project) return null;
@@ -46,7 +53,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
         color: "#389AF5",
         icon: "/images/loop-master/presentation.png",
     }
-  ];
+  ] as LmType[];
 
   return (
     <div>
@@ -59,8 +66,8 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
             color={lmType.color}
             icon={lmType.icon}
             items={loopMasters}
-            selectedItem={(edited.project.value.loopMasters as any)[lmType.field]}
-            getItemImage={(lm) => '/images/loop-master.png'}
+            selectedItem={(edited.project.value.loopMasters as LoopMasters)[lmType.field]}
+            getItemImage={() => '/images/loop-master.png'}
             getItemText={(lm) => lm}
             onSelect={(lm) => { edited.project.set(['loopMasters', lmType.field], lm) } }
             hint={hint}
