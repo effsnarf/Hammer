@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
+import Image from "next/image";
 import List from "./components/list/list";
 import Popup, { PopupHandle } from "./components/popup";
 import ProjectEditor from "./components/project/editor";
@@ -89,31 +90,68 @@ export default function Home() {
     <div>
       <div className="bg1">
         <div className="menu">
-          <img className="agency-logo" src="/images/agency-logo.png" />
+          <Image
+            className="agency-logo"
+            src="/images/agency-logo.png"
+            width="62"
+            height="62"
+            alt="agency logo"
+          />
           <ul>
             <li>
-              <img src="/images/menu/menu1.png" />
+              <Image
+                src="/images/menu/menu1.png"
+                width="14"
+                height="14"
+                alt="menu 1"
+              />
               <div>My projects</div>
             </li>
             <li>
-              <img src="/images/menu/menu2.png" />
+              <Image
+                src="/images/menu/menu2.png"
+                width="22"
+                height="14"
+                alt="menu 2"
+              />
               <div>All projects</div>
             </li>
             <li>
-              <img src="/images/menu/menu3.png" />
+              <Image
+                src="/images/menu/menu3.png"
+                width="16"
+                height="12"
+                alt="menu 2"
+              />
               <div>Messages</div>
             </li>
             <li>
-              <img src="/images/menu/menu4.png" />
+              <Image
+                src="/images/menu/menu4.png"
+                width="16"
+                height="19"
+                alt="menu 2"
+              />
               <div>All contacts</div>
             </li>
           </ul>
         </div>
         <div className="main">
           <div className="main-header">
-            <img src="/images/notifications.png" />
+            <Image
+              src="/images/notifications.png"
+              width="30"
+              height="30"
+              alt="notifications"
+            />
             <div>Account Name</div>
-            <img className="user" src="/images/user.jpg" />
+            <Image
+              className="user"
+              src="/images/user.jpg"
+              width="57"
+              height="57"
+              alt="user"
+            />
           </div>
           <div className="main-body">
             <div className="panel1">
@@ -126,9 +164,19 @@ export default function Home() {
                       type="search"
                       placeholder="Search for Project"
                     />
-                    <img src="/images/search.png" width="20" height="20" />
+                    <Image
+                      src="/images/search.png"
+                      width="20"
+                      height="20"
+                      alt="search"
+                    />
                   </div>
-                  <img src="/images/more.png" width="17" height="10" />
+                  <Image
+                    src="/images/more.png"
+                    width="17"
+                    height="10"
+                    alt="more"
+                  />
                 </div>
               </div>
               <div className="content">

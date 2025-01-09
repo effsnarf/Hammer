@@ -1,4 +1,5 @@
 import "./popup.css";
+import Image from "next/image";
 import React, { useImperativeHandle, forwardRef } from "react";
 import { ReactiveValue } from "../util";
 
@@ -51,10 +52,12 @@ const Popup = forwardRef<PopupHandle, PopupProps>(
       >
         <div className="window" style={{ transition: transTimeS }}>
           <div className="buttons">
-            <img
+            <Image
               className="clickable"
               src="/images/x.png"
-              alt="Close"
+              width="14"
+              height="14"
+              alt="close"
               onClick={() => isOpen.set(false)}
             />
           </div>
@@ -64,5 +67,7 @@ const Popup = forwardRef<PopupHandle, PopupProps>(
     );
   }
 );
+
+Popup.displayName = "Popup";
 
 export default Popup;

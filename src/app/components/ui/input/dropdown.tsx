@@ -1,12 +1,14 @@
 "use client";
 import "./dropdown.css";
+import Image from "next/image";
 import { ReactiveValue } from "@/app/util";
 import React from "react";
+import { WebImage } from "@/app/types";
 
 interface DropDownProps<T> {
   title: string;
   color?: string;
-  icon?: string;
+  icon?: WebImage;
   items: (T | null)[];
   selectedItem: T;
   onSelect: (item: T | null) => void;
@@ -53,7 +55,13 @@ const DropDown = <T,>({
         onClick={() => selected.item.set(item)}
       >
         {!getItemImage ? null : !getItemImage(item) ? null : (
-          <img className="badge" src={getItemImage(item) ?? ""} />
+          <Image
+            className="badge"
+            width="40"
+            height="40"
+            src={getItemImage(item) ?? ""}
+            alt="badge"
+          />
         )}
         <div>{getItemText(item)}</div>
       </li>
@@ -64,7 +72,14 @@ const DropDown = <T,>({
     <div className="ui-input-dropdown">
       <div className="box1">
         <div className="title flex gap-3" style={{ background: color }}>
-          <img src={icon} />
+          {!icon ? null : (
+            <Image
+              src={icon.url}
+              width={icon.width}
+              height={icon.height}
+              alt="icon"
+            />
+          )}
           <div>{title}</div>
         </div>
         <div
@@ -73,9 +88,12 @@ const DropDown = <T,>({
         >
           <div className="flex justify-between">
             <ul>{dropDownItem(selected.item.value, -1)}</ul>
-            <img
+            <Image
               className={`trans-fast ${isVisible.value ? "rotate-180" : ""}`}
               src="/images/arrow-down.png"
+              width="26"
+              height="17"
+              alt="arrow down"
             />
           </div>
         </div>

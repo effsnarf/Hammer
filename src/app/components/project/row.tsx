@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Project } from "./types";
 
 interface ProjectRowProps {
@@ -36,14 +37,19 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           Download
-          <img src="/images/download.png" />
+          <Image
+            src="/images/download.png"
+            width="16"
+            height="14"
+            alt="download"
+          />
         </a>
       </td>
       <td></td>
       <td>
         <div className="flex justify-end gap-2">
           <div className="dimmed fs-13px">More Info</div>
-          <img src="/images/info.png" />
+          <Image src="/images/info.png" width="27" height="27" alt="info" />
         </div>
       </td>
       <td>
@@ -52,10 +58,17 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
         </div>
       </td>
       <td>
-        <img src="/images/arrow-drop-down.png" />
+        <Image
+          src="/images/arrow-drop-down.png"
+          width="24"
+          height="24"
+          alt="arrow drop down"
+        />
       </td>
     </tr>
   );
 };
+
+ProjectRow.displayName = "ProjectRow";
 
 export default ProjectRow;
