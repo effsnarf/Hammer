@@ -3,10 +3,10 @@ type LoopMaster = {
 };
 
 type LoopMasters = {
-  briefing: LoopMaster;
-  research: LoopMaster;
-  strategy: LoopMaster;
-  presentation: LoopMaster;
+  briefing: LoopMaster | null;
+  research: LoopMaster | null;
+  strategy: LoopMaster | null;
+  presentation: LoopMaster | null;
 };
 
 type Project = {

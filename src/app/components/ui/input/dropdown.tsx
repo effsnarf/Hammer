@@ -10,7 +10,7 @@ interface DropDownProps<T> {
   color?: string;
   icon?: WebImage;
   items: (T | null)[];
-  selectedItem: T;
+  selectedItem: T | null;
   onSelect: (item: T | null) => void;
   getItemImage?: (item: T | null) => string | null;
   getItemText: (item: T | null) => string;

@@ -21,10 +21,6 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
   ];
   const hint = `Choose loop master`;
 
-  const edited = {
-    project: Reactive.value(useState(project)),
-  };
-
   const lmTypes = [
     {
       field: "briefing",
@@ -68,11 +64,11 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
     },
   ];
 
-  if (!edited.project.value) return null;
+  if (!project) return null;
 
   return (
     <div>
-      <h2>{edited.project.value.name}</h2>
+      <h2>{project?.name}</h2>
       <h3>Assign the loop masters</h3>
       <List
         gap="0.5em"
@@ -85,14 +81,15 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
             icon={lmType.icon}
             items={loopMasters}
             selectedItem={
-              (edited.project.value?.loopMasters as LoopMasters)[
+              (project?.loopMasters as LoopMasters)[
                 lmType.field as keyof LoopMasters
               ] ?? null
             }
             getItemImage={(lm) => (!lm ? null : "/images/loop-master.png")}
             getItemText={(lm) => (!lm ? "[none]" : lm.name)}
             onSelect={(lm) => {
-              edited.project.set(["loopMasters", lmType.field], lm);
+              if (project)
+                project.loopMasters[lmType.field as keyof LoopMasters] = lm;
             }}
             hint={hint}
           />
@@ -100,9 +97,9 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
       />
       <div
         className="button solid"
-        onClick={() =>
-          !edited.project.value ? null : onSave(edited.project.value)
-        }
+        onClick={() => {
+          if (project) onSave(project);
+        }}
         style={{ background: "#8938F4", marginTop: "3em" }}
       >
         Confirm
