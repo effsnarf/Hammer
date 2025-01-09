@@ -1,56 +1,80 @@
 "use client";
-import { ReactiveValue } from '@/app/util';
-import './dropdown.css';
-import React, { useState, useEffect } from 'react';
+import "./dropdown.css";
+import { ReactiveValue } from "@/app/util";
+import React from "react";
 
-interface UiInputDropDownProps {
-    title: string,
-    color?: string,
-    icon?: string,
-    items: any[];
-    selectedItem: ReactiveValue<any>;
-    onSelect: (item: any) => void;
-    getItemImage?: (item: any) => string;
-    getItemText: (item: any) => string;
-    hint: string
+interface DropDownProps<T> {
+  title: string;
+  color?: string;
+  icon?: string;
+  items: (T | null)[];
+  selectedItem: T;
+  onSelect: (item: T | null) => void;
+  getItemImage?: (item: T | null) => string | null;
+  getItemText: (item: T | null) => string;
+  hint: string;
 }
-  
-const UiInputDropDown: React.FC<UiInputDropDownProps> = ({ title, color, icon, items, selectedItem, onSelect, getItemImage, getItemText, hint }) => {
-    const isVisible = ReactiveValue.from(false);
 
-    const selected = {
-        item: ReactiveValue.from(selectedItem),
-    }
-    selected.item.watch((newItem) => {
-        isVisible.set(false);
-        onSelect(newItem);
-    });
-        
-    const dropDownItem = (item: any, index: number) => {
-        return (
-            (!item) ? <li key={index} className={(!selected.item.value ? 'dimmed' : '')}>{hint}</li> :
-        <li className="flex gap-3" key={index} onClick={() => selected.item.set(item)}>
-            {(!getItemImage) ? null : <img className='badge' src={getItemImage(item)} />}
-            <div>{getItemText(item)}</div>
-        </li>);
-    }
-    
+const DropDown = <T,>({
+  title,
+  color,
+  icon,
+  items,
+  selectedItem,
+  onSelect,
+  getItemImage,
+  getItemText,
+  hint,
+}: DropDownProps<T>) => {
+  const isVisible = ReactiveValue.from(false);
+
+  const selected = {
+    item: ReactiveValue.from(selectedItem),
+  };
+  selected.item.watch((newItem) => {
+    isVisible.set(false);
+    onSelect(newItem);
+  });
+
+  const dropDownItem = (item: T | null, index: number) => {
+    return index == -1 && !item ? (
+      <li key={index} className={!selected.item.value ? "dimmed" : ""}>
+        {hint}
+      </li>
+    ) : (
+      <li
+        className="flex gap-3"
+        key={index}
+        onClick={() => selected.item.set(item)}
+      >
+        {!getItemImage ? null : !getItemImage(item) ? null : (
+          <img className="badge" src={getItemImage(item) ?? ""} />
+        )}
+        <div>{getItemText(item)}</div>
+      </li>
+    );
+  };
+
   return (
     <div className="ui-input-dropdown">
       <div className="box1">
         <div className="title flex gap-3" style={{ background: color }}>
-            <img src={icon} />
-            <div>{title}</div>
+          <img src={icon} />
+          <div>{title}</div>
         </div>
-        <div className="hoverable selected" onClick={() => isVisible.set(!isVisible.value)}>
-            <div className="flex justify-between">
-                <ul>
-                    {dropDownItem(selected.item.value, -1)}
-                </ul>
-                <img className={`trans-fast ${(isVisible.value ? 'rotate-180' : '')}`} src="/images/arrow-down.png" />
-            </div>
+        <div
+          className="hoverable selected"
+          onClick={() => isVisible.set(!isVisible.value)}
+        >
+          <div className="flex justify-between">
+            <ul>{dropDownItem(selected.item.value, -1)}</ul>
+            <img
+              className={`trans-fast ${isVisible.value ? "rotate-180" : ""}`}
+              src="/images/arrow-down.png"
+            />
+          </div>
         </div>
-        <ul className={`dropdown ${isVisible.value ? 'show' : 'hide'}`}>
+        <ul className={`dropdown ${isVisible.value ? "show" : "hide"}`}>
           {items.map((item, index) => dropDownItem(item, index))}
         </ul>
       </div>
@@ -58,7 +82,6 @@ const UiInputDropDown: React.FC<UiInputDropDownProps> = ({ title, color, icon, i
   );
 };
 
+DropDown.displayName = "DropDown";
 
-UiInputDropDown.displayName = 'UiInputDropDown';
-
-export default UiInputDropDown;
+export default DropDown;

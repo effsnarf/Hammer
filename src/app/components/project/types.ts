@@ -18,4 +18,4 @@ type Project = {
   loopMasters: LoopMasters;
 };
 
-export type { Project };
+export type { Project, LoopMasters, LoopMaster };

@@ -1,12 +1,10 @@
-ul.list
-{
-    display: flex;
-    flex-direction: column;
+ul.list {
+  display: flex;
+  flex-direction: column;
 }
 
 .list > * {
-    opacity: 0;
-    transform: translateY(100%);
-    animation: trans-in 0.6s ease-out forwards;
-  }
-  
+  opacity: 0;
+  transform: translateY(100%);
+  animation: trans-in 0.6s ease-out forwards;
+}

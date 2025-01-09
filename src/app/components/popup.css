@@ -1,5 +1,4 @@
-.popup
-{
+.popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,62 +13,52 @@
   z-index: 10;
 }
 
-.popup.open
-{
-    opacity: 1;
-    pointer-events: all;
-  }
+.popup.open {
+  opacity: 1;
+  pointer-events: all;
+}
 
-.popup.open .window
-{
+.popup.open .window {
   transform: translateY(0);
 }
 
-.popup.closing .window
-{
+.popup.closing .window {
   transform: translateY(-100%);
 }
 
-
-.popup .window
-{
+.popup .window {
   min-width: 25em;
   padding: 2em;
   border: 1px solid #726385;
-  background: #3D334D;
+  background: #3d334d;
   border-radius: 1em;
   overflow: hidden;
   transform: translateY(50%);
 }
 
-.popup .buttons
-{
+.popup .buttons {
   display: flex;
   justify-content: end;
   gap: 1em;
 }
 
-.popup .content
-{
+.popup .content {
   font-size: 90%;
 }
 
-.popup h2, .popup h3
-{
+.popup h2,
+.popup h3 {
   text-align: center;
 }
 
-.popup h2
-{
+.popup h2 {
   font-size: 140%;
 }
 
-.popup h3
-{
+.popup h3 {
   font-size: 120%;
   margin: 0.6em 0;
 }
 
-.popup .box1 .title
-{
+.popup .box1 .title {
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Objects = {
   // Mutable set: Modifies the original object directly
@@ -82,7 +82,6 @@ class ReactiveValue<T> {
   value: T;
   private _reactSet: any;
 
-  private _watchers = [] as ((value: T) => void)[];
   private _blockConditions: (() => boolean)[] = [];
 
   private constructor(value: T) {
@@ -96,12 +95,9 @@ class ReactiveValue<T> {
   }
 
   set(...args: any[]): void {
-    for (const condition of this._blockConditions) if (condition()) return;
-    this._set(...args);
-    this._watchers.forEach((watcher) => watcher(this.value));
-  }
-
-  private _set(...args: any[]): void {
+    for (const condition of this._blockConditions) {
+      if (condition()) return;
+    }
     // (newValue: T) => void
     if (args.length === 1) {
       this._reactSet(args[0]);
@@ -132,7 +128,7 @@ class ReactiveValue<T> {
   }
 
   watch(callback: (value: T) => void): void {
-    this._watchers.push(callback);
+    useEffect(() => callback(this.value), [this.value]);
   }
 
   on(newValue: T, callback: (value: T) => void): void {
