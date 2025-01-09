@@ -1,0 +1,75 @@
+.popup
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #00000080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.popup.open
+{
+    opacity: 1;
+    pointer-events: all;
+  }
+
+.popup.open .window
+{
+  transform: translateY(0);
+}
+
+.popup.closing .window
+{
+  transform: translateY(-100%);
+}
+
+
+.popup .window
+{
+  min-width: 25em;
+  padding: 2em;
+  border: 1px solid #726385;
+  background: #3D334D;
+  border-radius: 1em;
+  overflow: hidden;
+  transform: translateY(50%);
+}
+
+.popup .buttons
+{
+  display: flex;
+  justify-content: end;
+  gap: 1em;
+}
+
+.popup .content
+{
+  font-size: 90%;
+}
+
+.popup h2, .popup h3
+{
+  text-align: center;
+}
+
+.popup h2
+{
+  font-size: 140%;
+}
+
+.popup h3
+{
+  font-size: 120%;
+  margin: 0.6em 0;
+}
+
+.popup .box1 .title
+{
+}
