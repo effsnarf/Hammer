@@ -12,8 +12,6 @@ interface ProjectEditorProps {
 }
 
 const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
-  if (!project) return null;
-
   const loopMasters = [
     null,
     { name: "John Doe" },
@@ -70,6 +68,8 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
     },
   ];
 
+  if (!edited.project.value) return null;
+
   return (
     <div>
       <h2>{edited.project.value.name}</h2>
@@ -85,7 +85,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
             icon={lmType.icon}
             items={loopMasters}
             selectedItem={
-              (edited.project.value.loopMasters as LoopMasters)[
+              (edited.project.value?.loopMasters as LoopMasters)[
                 lmType.field as keyof LoopMasters
               ] ?? null
             }
@@ -100,7 +100,9 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
       />
       <div
         className="button solid"
-        onClick={() => onSave(edited.project.value)}
+        onClick={() =>
+          !edited.project.value ? null : onSave(edited.project.value)
+        }
         style={{ background: "#8938F4", marginTop: "3em" }}
       >
         Confirm

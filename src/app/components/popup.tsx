@@ -1,6 +1,6 @@
 import "./popup.css";
 import Image from "next/image";
-import React, { useImperativeHandle, forwardRef, useState, use } from "react";
+import React, { useImperativeHandle, forwardRef, useState } from "react";
 import { Reactive } from "../util";
 
 export interface PopupHandle {
