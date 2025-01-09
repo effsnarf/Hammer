@@ -54,7 +54,9 @@ const ProjectRow: React.FC<ProjectRowProps> = ({
       </td>
       <td>
         <div className="flex justify-end">
-          <div className={`fs-13px status label ${status}`}>{statusText}</div>
+          <div className={`fs-13px status label ${project.status}`}>
+            {statusText}
+          </div>
         </div>
       </td>
       <td>
