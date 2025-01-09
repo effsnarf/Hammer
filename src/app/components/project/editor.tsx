@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import UiInputCombo from '../ui/input/combo';
+import UiInputDropDown from '../ui/input/dropdown';
 import { Project } from './types';
 import { ReactiveValue } from '@/app/util';
 import List from '../list/list';
@@ -53,7 +53,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
       <h2>{edited.project.value.name}</h2>
       <h3>Assign the loop masters</h3>
       <List gap='0.5em' items={lmTypes} renderItem={(lmType, index) => (
-        <UiInputCombo
+        <UiInputDropDown
             key={index}
             title={lmType.title}
             color={lmType.color}
@@ -70,5 +70,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
     </div>
   );
 };
+
+ProjectEditor.displayName = 'ProjectEditor';
 
 export default ProjectEditor;

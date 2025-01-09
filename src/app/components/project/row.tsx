@@ -40,4 +40,7 @@ const ProjectRow: React.FC<ProjectRowProps> = ({ stagger, project, onClick }) =>
   );
 };
 
+
+ProjectRow.displayName = 'ProjectRow';
+
 export default ProjectRow;

@@ -1,9 +1,9 @@
 "use client";
 import { ReactiveValue } from '@/app/util';
-import './combo.css';
+import './dropdown.css';
 import React, { useState, useEffect } from 'react';
 
-interface UiInputComboProps {
+interface UiInputDropDownProps {
     title: string,
     color?: string,
     icon?: string,
@@ -15,7 +15,7 @@ interface UiInputComboProps {
     hint: string
 }
   
-const UiInputCombo: React.FC<UiInputComboProps> = ({ title, color, icon, items, selectedItem, onSelect, getItemImage, getItemText, hint }) => {
+const UiInputDropDown: React.FC<UiInputDropDownProps> = ({ title, color, icon, items, selectedItem, onSelect, getItemImage, getItemText, hint }) => {
     const isVisible = ReactiveValue.from(false);
 
     const selected = {
@@ -36,7 +36,7 @@ const UiInputCombo: React.FC<UiInputComboProps> = ({ title, color, icon, items, 
     }
     
   return (
-    <div className="ui-input-combo">
+    <div className="ui-input-dropdown">
       <div className="box1">
         <div className="title flex gap-3" style={{ background: color }}>
             <img src={icon} />
@@ -58,4 +58,7 @@ const UiInputCombo: React.FC<UiInputComboProps> = ({ title, color, icon, items, 
   );
 };
 
-export default UiInputCombo;
+
+UiInputDropDown.displayName = 'UiInputDropDown';
+
+export default UiInputDropDown;

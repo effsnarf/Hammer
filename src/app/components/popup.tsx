@@ -54,6 +54,8 @@ return (
   </div>
 );
 });
-  
+
+
+Popup.displayName = "Popup";
 
 export default Popup;

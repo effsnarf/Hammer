@@ -1,4 +1,4 @@
-.ui-input-combo .dropdown {
+.ui-input-dropdown .dropdown {
     background: #251F30;
     border-radius: 1em;
     padding: 0.7em 0;
@@ -6,25 +6,25 @@
     transition: all 0.6s ease, padding 0.4s;
   }
 
-  .ui-input-combo .dropdown.hide {
+  .ui-input-dropdown .dropdown.hide {
     opacity: 0;
     max-height: 0;
     padding: 0;
     pointer-events: none;
   }
 
-  .ui-input-combo .dropdown.show {
+  .ui-input-dropdown .dropdown.show {
     opacity: 1;
     max-height: 10em;
     pointer-events: auto;
   }
 
-  .ui-input-combo .selected {
+  .ui-input-dropdown .selected {
     padding: 0.3em 0.6em;
     border-radius: 0.5em;
   }
   
-  .ui-input-combo .dropdown li {
+  .ui-input-dropdown .dropdown li {
     padding: 0.2em 0.6em;
     display: flex;
     align-items: center;
@@ -33,7 +33,7 @@
     transition: 0.2s;
   }
   
-  .ui-input-combo .dropdown li:hover {
+  .ui-input-dropdown .dropdown li:hover {
     background: #8A38F5;
     transition: 0s;
   }

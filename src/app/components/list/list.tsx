@@ -41,4 +41,7 @@ const List = <T,>({ type, gap, items, renderItem }: ListProps<T>) => {
   }
 };
 
+
+List.displayName = 'List';
+
 export default List;
