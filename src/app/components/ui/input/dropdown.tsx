@@ -1,8 +1,8 @@
 "use client";
 import "./dropdown.css";
-import Image from "next/image";
-import { ReactiveValue } from "@/app/util";
 import React from "react";
+import Image from "next/image";
+import { Reactive } from "@/app/util";
 import { WebImage } from "@/app/types";
 
 interface DropDownProps<T> {
@@ -28,10 +28,10 @@ const DropDown = <T,>({
   getItemText,
   hint,
 }: DropDownProps<T>) => {
-  const isVisible = ReactiveValue.from(false);
+  const isVisible = Reactive.value(false);
 
   const selected = {
-    item: ReactiveValue.from(selectedItem),
+    item: Reactive.value(selectedItem),
   };
   selected.item.watch((newItem) => {
     isVisible.set(false);

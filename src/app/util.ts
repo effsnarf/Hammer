@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-const Objects = {
+type Obj = Record<string | number, unknown>;
+
+class Objects {
   // Mutable set: Modifies the original object directly
-  set: (obj: any, path: (string | number)[], value: any): any => {
-    let temp = obj;
+  static set(obj: Obj, path: (string | number)[], value: unknown) {
+    let temp: Obj = obj;
 
     path.forEach((key, index) => {
       if (index === path.length - 1) {
@@ -15,16 +17,16 @@ const Objects = {
         }
         temp[key] = Array.isArray(temp[key])
           ? [...temp[key]]
-          : { ...temp[key] };
+          : { ...(temp[key] as Obj) };
       }
-      temp = temp[key];
+      temp = temp[key] as Obj;
     });
 
-    return obj; // Return the mutated object
-  },
+    return obj;
+  }
 
   // Immutable cloneSet: Returns a new object with updated path
-  cloneSet: (obj: any, path: (string | number)[], value: any): any => {
+  static cloneSet(obj: Obj, path: (string | number)[], value: unknown) {
     const clonedObj = Objects.clone(obj);
     let temp = clonedObj;
 
@@ -34,7 +36,7 @@ const Objects = {
       } else {
         // Handle arrays and objects
         if (!temp[key]) {
-          temp[key] = Array.isArray(temp[key]) ? [] : {}; // Initialize if undefined
+          temp[key] = Array.isArray(temp[key]) ? [] : {};
         }
         temp[key] = Array.isArray(temp[key])
           ? [...temp[key]]
@@ -43,17 +45,17 @@ const Objects = {
       temp = temp[key];
     });
 
-    return clonedObj; // Return the new cloned object
-  },
+    return clonedObj;
+  }
 
-  setReactive: (
+  static setReactive(
     setState: React.Dispatch<React.SetStateAction<any>>,
     path: (string | number)[],
-    value: any
-  ): void => {
+    value: unknown
+  ) {
     // Update the state using the setState function
-    setState((prevState: any) => {
-      const updatedObj = { ...prevState };
+    setState((prevState: Obj) => {
+      const updatedObj = { ...prevState } as Obj;
       let temp = updatedObj;
 
       path.forEach((key, index) => {
@@ -66,21 +68,33 @@ const Objects = {
           }
           temp[key] = Array.isArray(temp[key])
             ? [...temp[key]]
-            : { ...temp[key] };
+            : { ...(temp[key] as Obj) };
         }
-        temp = temp[key];
+        temp = temp[key] as Obj;
       });
 
       return updatedObj;
     });
-  },
+  }
 
-  clone: (obj: any): any => JSON.parse(JSON.stringify(obj)),
-};
+  static clone(obj: Obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+}
+
+class Reactive {
+  static value<T>(value: T): ReactiveValue<T> {
+    return ReactiveValue.from(value);
+  }
+
+  static array<T>(items: T[]): ReactiveArray<T> {
+    return ReactiveArray.from(items);
+  }
+}
 
 class ReactiveValue<T> {
   value: T;
-  private _reactSet: any;
+  private _reactSet: Dispatch<SetStateAction<T>>;
 
   private _watchers: ((value: T) => void)[] = [];
   private _blockConditions: (() => boolean)[] = [];
@@ -107,27 +121,17 @@ class ReactiveValue<T> {
     }
     // (newValue: T) => void
     if (args.length === 1) {
-      this._reactSet(args[0]);
+      this._reactSet((prevState: T) => args[0] as T);
       return;
     }
+    // (path: (string | number)[], value: any) => void
     if (args.length == 2) {
-      // set array item
-      // (findItem: (item: T) => boolean, newValue: T) => void
-      if (typeof args[0] == "function") {
-        const findItem = args[0] as (item: T) => boolean;
-        const newItem = args[1] as T;
-        this._reactSet((prevObj: T) => {
-          return (prevObj as any[]).map((item) =>
-            findItem(item) ? newItem : item
-          );
-        });
-        return;
-      }
-      // (path: (string | number)[], value: any) => void
       if (Array.isArray(args[0])) {
         const path = args[0] as (string | number)[];
         const value = args[1] as any;
-        this._reactSet((prevObj: T) => Objects.cloneSet(prevObj, path, value));
+        this._reactSet((prevState: T) =>
+          Objects.cloneSet(prevState as Obj, path, value)
+        );
         return;
       }
     }
@@ -149,4 +153,25 @@ class ReactiveValue<T> {
   }
 }
 
-export { Objects, ReactiveValue };
+class ReactiveArray<T> {
+  items: T[];
+  private _reactSetItems: Dispatch<SetStateAction<T[]>>;
+
+  private constructor(items: T[]) {
+    const [rItems, rSetItems] = useState(items);
+    this.items = rItems;
+    this._reactSetItems = rSetItems;
+  }
+
+  static from<T>(items: T[]): ReactiveArray<T> {
+    return new ReactiveArray(items);
+  }
+
+  set(findItem: (item: T) => boolean, newItem: T): void {
+    this._reactSetItems((prevItems: T[]) => {
+      return prevItems.map((item) => (findItem(item) ? newItem : item));
+    });
+  }
+}
+
+export { Objects, Reactive };

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { LoopMaster, LoopMasters, Project } from "./types";
-import { ReactiveValue } from "@/app/util";
+import { Reactive } from "@/app/util";
 import List from "../list/list";
 import DropDown from "../ui/input/dropdown";
 import { WebImage } from "@/app/types";
@@ -24,7 +24,7 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave }) => {
   const hint = `Choose loop master`;
 
   const edited = {
-    project: ReactiveValue.from(project),
+    project: Reactive.value(project),
   };
 
   const lmTypes = [

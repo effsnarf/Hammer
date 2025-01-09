@@ -6,7 +6,7 @@ import Popup, { PopupHandle } from "./components/popup";
 import ProjectEditor from "./components/project/editor";
 import ProjectRow from "./components/project/row";
 import { Project } from "./components/project/types";
-import { Objects, ReactiveValue } from "./util";
+import { Objects, Reactive } from "./util";
 
 export default function Home() {
   const popup1 = useRef<PopupHandle>(null);
@@ -18,7 +18,7 @@ export default function Home() {
     presentation: null,
   };
 
-  const projects = ReactiveValue.from([
+  const projects = Reactive.value([
     {
       _id: 1,
       name: "Project name A",
@@ -78,7 +78,7 @@ export default function Home() {
   ]);
 
   const selected = {
-    project: ReactiveValue.from(null as Project | null),
+    project: Reactive.value(null as Project | null),
   };
 
   const saveEditedProject = (project: Project) => {
